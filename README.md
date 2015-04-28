@@ -1,6 +1,6 @@
 # wunderprojectj
 
-A simple web API providing access to current weather data from a select list of cities provided by Wunderground.
+A simple web app providing weather from three cities, provided by Wunderground
 
 ## Prerequisites
 
