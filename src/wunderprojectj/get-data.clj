@@ -15,6 +15,14 @@
        api-key "/conditions/q/" c-s "/" city ".xml"))
 
 (defn get-zip
-  "Given an API url, returns the parsed result as a zipper"
+  "Given an API url, returns the parsed XML result as a zipper"
   [url]
   (zip/xml-zip (xml/parse url)))
+
+(defn get-conditions
+  "Given the zipper, returns the section of the zipper containing the current 
+  observation"
+  [z]
+  (z-xml/xml-> z
+               :response
+               :current_observation))
