@@ -5,7 +5,7 @@
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [compojure "1.3.1"]
                  [ring/ring-defaults "0.1.2"]
-                 [org.clojure/data.zip "0.1.1"]]
+                 [org.clojure/data.xml "0.0.8"]]
   :plugins [[lein-ring "0.8.13"]]
   :ring {:handler wunderprojectj.handler/app}
   :profiles
