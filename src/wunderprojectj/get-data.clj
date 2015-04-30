@@ -6,7 +6,7 @@
 
 ;; Functions
 (defn make-url
-  "Given a  a country or a two-letter state followed by a city, returns a 
+  "Given a country or a two-letter state followed by a city, returns a 
    Wunderground API URL"
   [c-s city]
   (str "http://api.wunderground.com/api/" 
@@ -24,5 +24,18 @@
     (mapv #(let [nk (:tag %)
                  nv (:content %)]
              (hash-map nk nv)))
-    (reduce conj)
+    (reduce conj)))
+
+(defn get-simple
+  "Returns a simplified map containing just the temp and weather"
+  [wmap]
+  (select-keys wmap [:temp_c :weather]))
+
+(defn weather-query
+  "Given a city and country/state, returns map of current temp in C and weather"
+  [city cs]
+  (->> 
+    (make-url cs city)
+    get-conditions
+    get-simple
     ))
