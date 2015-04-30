@@ -1,6 +1,6 @@
 # wunderprojectj
 
-A simple web app providing weather from three cities, provided by Wunderground
+A simple API server providing weather from three cities, provided by Wunderground
 
 ## Prerequisites
 
@@ -17,6 +17,26 @@ You will need to create a text file containing a valid Wunderground API key in t
 To start a web server for the application, run:
 
     lein ring server
+
+## Usage
+
+Once the server is running, the current weather in selected locations can be queried via simple HTTP requests on port 3000, from the appropriate url:
+
+* /london -> London, England
+* /tampere -> Tampere, Finland
+* /durham -> Durham, NC, USA
+
+The server will serve up the current temp and weather in these locations as an XML response, containing the location name, temp (in Celsius), and weather condition. 
+
+Example output from `localhost:3000\london`: 
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+	<location>London, United Kingdom</location>
+	<temp>14</temp>
+	<weather>Clear</weather>
+</response>
+```
 
 ## License
 
