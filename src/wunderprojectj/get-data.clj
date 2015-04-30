@@ -1,7 +1,5 @@
 (ns wunderprojectj.get-data
-  (:require [clojure.xml :as xml]
-            [clojure.zip :as zip]
-            [clojure.data.zip.xml :as z-xml]))
+  (:require [clojure.xml :as xml]))
 
 ;; We slurp the API key from a file so that the key can be kept private
 (def api-key (slurp "./resources/private/wapikey.txt"))
@@ -14,15 +12,17 @@
   (str "http://api.wunderground.com/api/" 
        api-key "/conditions/q/" c-s "/" city ".xml"))
 
-(defn get-zip
-  "Given an API url, returns the parsed XML result as a zipper"
-  [url]
-  (zip/xml-zip (xml/parse url)))
-
 (defn get-conditions
-  "Given the zipper, returns the section of the zipper containing the current 
-  observation"
-  [z]
-  (z-xml/xml-> z
-               :response
-               :current_observation))
+  "Returns a map of the current weather conditions"
+  [url]
+  (->> 
+    (xml/parse url)
+    :content
+    (filter #(= (:tag %) :current_observation))
+    first
+    :content
+    (mapv #(let [nk (:tag %)
+                 nv (:content %)]
+             (hash-map nk nv)))
+    (reduce conj)
+    ))
