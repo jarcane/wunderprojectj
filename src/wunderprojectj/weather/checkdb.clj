@@ -1,26 +1,37 @@
 (ns wunderprojectj.weather.checkdb
   (:require [monger.core :as mg]
+            [monger.collection :as mc]
             [clj-time.core :as time]
             [wunderprojectj.weather.getdata :as weather]))
+
+(def conn (mg/connect))
 
 (defn date-exists
   "Checks the local weather database for a result from the current date
    Returns false if not found, or returns the stored result"
-  [date city]
-  false)
+  [date db coll]
+  (let [result (mc/find-one-as-map db coll {:date date})]
+    (if (empty? result)
+      false
+      (:response result))))
 
 (defn cache-new
-  "Makes an API request for the name and date, stores it, and returns it"
-  [date city]
+  "Makes an API request for the name and date, stores it to the local DB, 
+   and returns it"
+  [date city db coll]
   (let [result (apply weather/weather-query city)]
-    result))
+    (do
+      (mc/insert db coll {:date date :response result})
+      result)))
 
 (defn query-city
-  "Queries the database for the current date. If found, returns stored value.
-   If not found, queries the wunderground API, caches the result, and returns it"
+  "Takes a city (a vector containing city at index 1 and country/state at index 2)
+   queries the DB for a cached result from the current day and returns it if found
+   or requests a new result if not found"
   [city]
   (let [date (str (time/today))
-        conn (mg/connect)]
-    (if-let [exists (date-exists date city)]
+        db (mg/get-db conn "wunderprojectj")
+        coll (first city)]
+    (if-let [exists (date-exists date db coll)]
       exists
-      (cache-new date city))))
+      (cache-new date city db coll))))
