@@ -5,11 +5,12 @@
             [wunderprojectj.weather.getdata :as weather]))
 
 (def conn (mg/connect))
+(def db (mg/get-db conn "wunderprojectj"))
 
 (defn date-exists
   "Checks the local weather database for a result from the current date
    Returns false if not found, or returns the stored result"
-  [db coll date]
+  [coll date]
   (let [result (mc/find-one-as-map db coll {:date date})]
     (if (empty? result)
       false
@@ -18,7 +19,7 @@
 (defn cache-new
   "Makes an API request for the name and date, stores it to the local DB, 
    and returns it"
-  [db coll date city]
+  [coll date city]
   (let [result (apply weather/weather-query city)]
     (mc/insert db coll {:date date :response result})
     result))
@@ -29,8 +30,7 @@
    or requests a new result if not found"
   [city]
   (let [date (str (time/today))
-        db (mg/get-db conn "wunderprojectj")
         coll (first city)]
-    (if-let [exists (date-exists db coll date)]
+    (if-let [exists (date-exists coll date)]
       exists
-      (cache-new db coll date city))))
+      (cache-new coll date city))))
