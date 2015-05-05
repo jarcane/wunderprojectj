@@ -10,12 +10,12 @@
   false)
 
 (defn cache-new
-  "Makes an API request for the name, stores it, and returns it"
+  "Makes an API request for the name and date, stores it, and returns it"
   [date city]
   (let [result (apply weather/weather-query city)]
     result))
 
-(defn query-date
+(defn query-city
   "Queries the database for the current date. If found, returns stored value.
    If not found, queries the wunderground API, caches the result, and returns it"
   [city]
