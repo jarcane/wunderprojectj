@@ -7,7 +7,7 @@
                  [ring/ring-defaults "0.1.2"]
                  [org.clojure/data.xml "0.0.8"]
                  [com.novemberain/monger "2.0.1"]
-                 [clj-time "0.8.0"]]
+                 [ororo "0.1.0"]]
   :plugins [[lein-ring "0.8.13"]]
   :ring {:handler wunderprojectj.handler/app}
   :profiles

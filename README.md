@@ -25,21 +25,21 @@ To start, run mongod, pointed to the database directory, then start up the serve
 
 ## Usage
 
-Once the server is running, the current weather in selected locations can be queried via simple HTTP requests on port 3000, from the appropriate url:
+Once the server is running, the current weather in selected locations can be queried via HTTP GET on port 3000, from the appropriate url, composed of the name of the city (one of three) and the date in YYYYMMDD format:
 
-* /london -> London, England
-* /tampere -> Tampere, Finland
-* /durham -> Durham, NC, USA
+* /london/YYYYMMDD -> London, England
+* /tampere/YYYYMMDD -> Tampere, Finland
+* /durham/YYYYMMDD -> Durham, NC, USA
 
 The server will serve up the current temp and weather in these locations as an XML response, containing the location name, temp (in Celsius), and weather condition. 
 
-Example output from `localhost:3000\london`: 
+Example mock output from `localhost:3000\london\20100515`: 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <response>
-	<location>London, United Kingdom</location>
-	<temp>14</temp>
-	<weather>Clear</weather>
+	<location>London, England</location>
+	<temp>11</temp>
+	<weather>Cloudy</weather>
 </response>
 ```
 

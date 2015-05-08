@@ -1,42 +1,32 @@
 (ns wunderprojectj.weather.getdata
-  (:require [clojure.xml :as xml]
-            [clojure.data.xml :as d-xml]))
+  (:require [clojure.data.xml :as d-xml]
+            [ororo.core :as ororo]))
 
 ;; We slurp the API key from a file so that the key can be kept private
 (def api-key (slurp "./resources/private/wapikey.txt"))
 
 ;; Functions
-(defn make-url
-  "Given a country or a two-letter state followed by a city, returns a 
-   Wunderground API URL"
-  [c-s city]
-  (str "http://api.wunderground.com/api/" 
-       api-key "/conditions/q/" c-s "/" city ".xml"))
-
-(defn get-conditions
-  "Returns a map of the current weather conditions"
-  [url]
-  (->> 
-    (xml/parse url)
-    :content
-    (filter #(= (:tag %) :current_observation))
-    first
-    :content
-    (mapv #(let [nk (:tag %)
-                 nv (:content %)]
-             (hash-map nk nv)))
-    (reduce conj)))
+(defn find-conds
+  "Given a list of observation maps, returns an estimation of weather conditions 
+   for that day by grabbing either mid-day or the last available"
+  [omap]
+  (if-let [weather (->>
+                     omap
+                     (filter #(= (:hour (:date %)) "12"))
+                     first
+                     :conds)]
+    weather
+    (->> omap last :conds)))
 
 (defn get-simple
-  "Returns a simplified map containing just the temp and weather"
-  [wmap]
-  (let [loc (->> 
-              wmap
-              :display_location
-              first
-              :content)
-        temp (assoc (select-keys wmap [:temp_c :weather]) :location loc)] 
-    (zipmap (keys temp) (map first (vals temp)))))
+  "Returns a simplified map containing just the location, temp and weather"
+  [loc wmap]
+  (let [loc (clojure.string/join ", " loc)
+        temp (->> wmap :dailysummary first :meantempm)
+        conds (find-conds (:observations wmap))] 
+    {:location loc
+     :temp temp 
+     :weather conds}))
 
 (defn simple->xml
   "Takes the simplified map of get-simple and returns an assembled XML response"
@@ -44,16 +34,15 @@
   (d-xml/sexp-as-element
     [:response
      [:location (:location smap)]
-     [:temp (:temp_c smap)]
+     [:temp (:temp smap)]
      [:weather (:weather smap)]]))
 
 (defn weather-query
-  "Given a city and country/state, returns XML response with location,
+  "Given a location and date, returns XML response with location,
    current temp in C, and weather"
-  [city cs]
+  [loc date]
   (->> 
-    (make-url cs city)
-    get-conditions
-    get-simple
+    (ororo/history api-key loc date)
+    (get-simple loc)
     simple->xml
     d-xml/emit-str))
