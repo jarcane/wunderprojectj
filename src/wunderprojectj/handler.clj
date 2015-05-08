@@ -4,10 +4,19 @@
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
             [wunderprojectj.weather.checkdb :as weather]))
 
+(def cities {:london ["London" "England"]
+             :durham ["Durham" "NC"]
+             :tampere ["Tampere" "Finland"]})
+
+(defn req-parse
+  "Parses the request parameters, passes them to the weather query function, 
+   and returns an XML response as a string"
+  [city date]
+  (let [cityv ((keyword city) cities)]
+    (weather/query-city cityv date)))
+
 (defroutes app-routes
-  (GET "/london/:date" [date] (fn [req] (weather/query-city ["London" "England"] date)))
-  (GET "/durham/:date" [date] (fn [req] (weather/query-city ["Durham" "NC"] date)))
-  (GET "/tampere/:date" [date] (fn [req] (weather/query-city ["Tampere" "Finland"] date)))
+  (GET "/:city/:date" [city date] (fn [req] (req-parse city date)))
   (route/not-found "Not Found"))
 
 (def app
