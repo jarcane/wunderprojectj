@@ -20,7 +20,7 @@
   "Makes an API request for the name and date, stores it to the local DB, 
    and returns it"
   [coll date city]
-  (let [result (apply weather/weather-query city)]
+  (let [result (weather/weather-query city date)]
     (mc/insert db coll {:date date :response result})
     result))
 
@@ -29,7 +29,7 @@
    queries the DB for a cached result from the current day and returns it if found
    or requests a new result if not found"
   [city]
-  (let [date (str (time/today))
+  (let [date (clojure.string/join (remove #(= % \-) (str (time/today))))
         coll (first city)]
     (if-let [exists (date-exists coll date)]
       exists
