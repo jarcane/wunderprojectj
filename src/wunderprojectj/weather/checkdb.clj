@@ -1,7 +1,6 @@
 (ns wunderprojectj.weather.checkdb
   (:require [monger.core :as mg]
             [monger.collection :as mc]
-            [clj-time.core :as time]
             [wunderprojectj.weather.getdata :as weather]))
 
 (def conn (mg/connect))
@@ -28,9 +27,8 @@
   "Takes a city (a vector containing city at index 1 and country/state at index 2)
    queries the DB for a cached result from the current day and returns it if found
    or requests a new result if not found"
-  [city]
-  (let [date (clojure.string/join (remove #(= % \-) (str (time/today))))
-        coll (first city)]
+  [city date]
+  (let [coll (first city)]
     (if-let [exists (date-exists coll date)]
       exists
       (cache-new coll date city))))

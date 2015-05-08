@@ -1,6 +1,5 @@
 (ns wunderprojectj.weather.getdata
-  (:require [clojure.xml :as xml]
-            [clojure.data.xml :as d-xml]
+  (:require [clojure.data.xml :as d-xml]
             [ororo.core :as ororo]))
 
 ;; We slurp the API key from a file so that the key can be kept private
@@ -20,7 +19,7 @@
     (->> omap last :conds)))
 
 (defn get-simple
-  "Returns a simplified map containing just the temp and weather"
+  "Returns a simplified map containing just the location, temp and weather"
   [loc wmap]
   (let [loc (clojure.string/join ", " loc)
         temp (->> wmap :dailysummary first :meantempm)

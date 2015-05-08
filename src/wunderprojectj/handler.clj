@@ -5,9 +5,9 @@
             [wunderprojectj.weather.checkdb :as weather]))
 
 (defroutes app-routes
-  (GET "/london" [] (fn [req] (weather/query-city ["London" "England"])))
-  (GET "/durham" [] (fn [req] (weather/query-city ["Durham" "NC"])))
-  (GET "/tampere" [] (fn [req] (weather/query-city ["Tampere" "Finland"])))
+  (GET "/london/:date" [date] (fn [req] (weather/query-city ["London" "England"] date)))
+  (GET "/durham/:date" [date] (fn [req] (weather/query-city ["Durham" "NC"] date)))
+  (GET "/tampere/:date" [date] (fn [req] (weather/query-city ["Tampere" "Finland"] date)))
   (route/not-found "Not Found"))
 
 (def app
