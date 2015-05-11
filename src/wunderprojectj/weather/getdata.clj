@@ -21,7 +21,7 @@
 (defn get-simple
   "Returns a simplified map containing just the location, temp and weather"
   [loc wmap]
-  (let [loc (clojure.string/join ", " loc)
+  (let [loc (clojure.string/join ", " (map clojure.string/capitalize loc))
         temp (->> wmap :dailysummary first :meantempm)
         conds (find-conds (:observations wmap))] 
     {:location loc
