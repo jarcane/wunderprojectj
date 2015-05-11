@@ -34,9 +34,9 @@ All parameters are required or a "Not Found" result will be returned.
 The server will serve up the current temp and weather in these locations as an XML response, containing the location name, temp (in Celsius), and weather condition. 
 
 Example input:
-	localhost:3000\london\england\20100515
+	localhost:3000/london/england/20100515
 
-Example mock output: 
+Example output: 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <response>
