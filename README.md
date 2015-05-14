@@ -1,10 +1,12 @@
 # wunderprojectj
 
-A simple API server providing weather from three cities, provided by Wunderground
+A simple web application providing weather from three cities.
+
+Data is provided by Wunderground.
 
 ## Prerequisites
 
-You will need [Leiningen][] 2.0.0 or above installed. You will also need [MongoDB][] 2.0+ installed.
+You will need [Leiningen][] 2.5.0 or above installed. You will also need [MongoDB][] 2.0+ installed.
 
 [leiningen]: https://github.com/technomancy/leiningen
 [mongodb]: https://www.mongodb.org/
@@ -21,11 +23,15 @@ To start, run mongod, pointed to the database directory, then start up the serve
 
 	mongod --dbpath ./data/db
 
+	lein cljsbuild auto
+
     lein ring server
 
 ## Usage
 
-Once the server is running, the current weather in selected locations can be queried via HTTP GET on port 3000, with the appropriate URL parameters. URLs are constructed like so:
+Once the server is running, the front-end will be accessible from localhost at port 3000. In dev mode, a figwheel connection is available on port 3449, and a weasel REPL is available on port 9001.
+
+The current weather in selected locations can be queried via HTTP GET on port 3000, with the appropriate URL parameters. URLs are constructed like so:
 
 	/[city]/[country or two-letter state code]/[date in YYYYMMDD]
 
