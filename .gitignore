@@ -12,6 +12,4 @@ pom.xml.asc
 /.repl
 
 /data/db/*.*
-/data/db/journal/*.*
-figwheel_server.log
 /resources/private/wapikey.txt
