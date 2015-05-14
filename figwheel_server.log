@@ -1,0 +1,28 @@
+Figwheel: focusing on build-ids (app)
+[0mCompiling "resources/public/js/app.js" from ["src/cljs" "env/dev/cljs"]...
+[32mSuccessfully compiled "resources/public/js/app.js" in 0.257 seconds.[0m
+notifying browser that file changed:  resources/public/js/out/goog/deps.js
+notifying browser that file changed:  resources/public/js/out/cljs_deps.js
+notifying browser that file changed:  /wunderprojectj/core.js
+notifying browser that file changed:  /wunderprojectj/dev.js
+Figwheel: focusing on build-ids (app)
+[0mCompiling "resources/public/js/app.js" from ["src/cljs" "env/dev/cljs"]...
+[32mSuccessfully compiled "resources/public/js/app.js" in 0.409 seconds.[0m
+notifying browser that file changed:  resources/public/js/out/goog/deps.js
+notifying browser that file changed:  resources/public/js/out/cljs_deps.js
+notifying browser that file changed:  /wunderprojectj/core.js
+notifying browser that file changed:  /wunderprojectj/dev.js
+Figwheel: focusing on build-ids (app)
+[0mCompiling "resources/public/js/app.js" from ["src/cljs" "env/dev/cljs"]...
+[32mSuccessfully compiled "resources/public/js/app.js" in 0.282 seconds.[0m
+notifying browser that file changed:  resources/public/js/out/goog/deps.js
+notifying browser that file changed:  resources/public/js/out/cljs_deps.js
+notifying browser that file changed:  /wunderprojectj/core.js
+notifying browser that file changed:  /wunderprojectj/dev.js
+Figwheel: focusing on build-ids (app)
+[0mCompiling "resources/public/js/app.js" from ["src/cljs" "env/dev/cljs"]...
+[32mSuccessfully compiled "resources/public/js/app.js" in 0.278 seconds.[0m
+notifying browser that file changed:  resources/public/js/out/goog/deps.js
+notifying browser that file changed:  resources/public/js/out/cljs_deps.js
+notifying browser that file changed:  /wunderprojectj/core.js
+notifying browser that file changed:  /wunderprojectj/dev.js

@@ -45,6 +45,7 @@
                              :compiler {:output-to     "resources/public/js/app.js"
                                         :output-dir    "resources/public/js/out"
                                         :asset-path   "js/out"
+                                        :figwheel true
                                         :optimizations :none
                                         :pretty-print  true}}}}
 
@@ -54,11 +55,12 @@
                    :dependencies [[ring-mock "0.1.5"]
                                   [ring/ring-devel "1.3.2"]
                                   [weasel "0.6.0"]
-                                  [leiningen-core "2.5.1"]
+                                  ;[leiningen-core "2.5.1"]
                                   [com.cemerick/piggieback "0.2.1"]
                                   [org.clojure/tools.nrepl "0.2.10"]
                                   [pjstadig/humane-test-output "0.7.0"]
-                                  [figwheel "0.3.1"]]
+                                  ;[figwheel "0.3.1"]
+                                  ]
 
                    :source-paths ["env/dev/clj"]
                    :plugins [[lein-figwheel "0.3.1"]

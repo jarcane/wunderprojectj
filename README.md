@@ -23,9 +23,7 @@ To start, run mongod, pointed to the database directory, then start up the serve
 
 	mongod --dbpath ./data/db
 
-	lein cljsbuild auto
-
-    lein ring server
+	lein do clean, figwheel
 
 ## Usage
 
