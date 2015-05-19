@@ -39,7 +39,7 @@ The server will serve up the temp and weather in these locations as a JSON respo
 
 Example:
 ```json
-{ "location" : "London, England,
+{ "location" : "London, England",
   "temp" : "0",
   "weather" : "Partly Cloudy" }
 ```
