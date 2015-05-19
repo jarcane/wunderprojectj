@@ -21,7 +21,8 @@
      (include-js "js/app.js")]]))
 
 (defroutes routes
-  (GET "/:city/:cs/:date" [city cs date] (fn [req] (weather/query-city [city cs] date)))
+  (GET "/:city/:cs/:date" [city cs date] (fn [req] {:body (weather/query-city [city cs] date)
+                                                    :headers {"content-type" "application/json"}}))
   (GET "/" [] home-page)
   (resources "/")
   (not-found "Not Found"))

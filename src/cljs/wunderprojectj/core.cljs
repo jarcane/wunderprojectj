@@ -1,52 +1,65 @@
 (ns wunderprojectj.core
     (:require [reagent.core :as reagent :refer [atom]]
               [reagent.session :as session]
-              [secretary.core :as secretary :include-macros true]
               [goog.events :as events]
               [goog.history.EventType :as EventType]
-              [cljsjs.react :as react])
+              [cljsjs.react :as react]
+              [clojure.string :as string]
+              [cljs-http.client :as http]
+              [cljs.core.async :refer [<!]])
+    (:require-macros [cljs.core.async.macros :refer [go]])
     (:import goog.History))
+
+(defonce locmap {"london/england" "London, England"
+                 "tampere/finland" "Tampere, Finland"
+                 "durham/nc" "Durham, NC, USA"})
+
+(defonce location (atom "london/england"))
+(defonce date (atom ""))
+(defonce curr-weather (atom ""))
+
+(defn url-create 
+  "Create the URL needed to call the wunderproject back-end from the location
+   and date atoms"
+  [loc date]
+  (str "http://localhost:3449/" loc "/" (string/replace date #"-" "")))
+
+(defn load-data
+  "Retrieve a JSON response from the back end"
+  [loc date]
+  (go (let [response (<! (http/get (url-create loc date)))]
+        (reset! curr-weather (:body response)))))
 
 ;; -------------------------
 ;; Views
 
 (defn home-page []
   [:div [:h2 "Welcome to wunderprojectj"]
-   [:div [:a {:href "#/about"} "go to about page"]]])
-
-(defn about-page []
-  [:div [:h2 "About wunderprojectj"]
-   [:div [:a {:href "#/"} "go to the home page"]]])
-
-(defn current-page []
-  [:div [(session/get :current-page)]])
-
-;; -------------------------
-;; Routes
-(secretary/set-config! :prefix "#")
-
-(secretary/defroute "/" []
-  (session/put! :current-page #'home-page))
-
-(secretary/defroute "/about" []
-  (session/put! :current-page #'about-page))
-
-;; -------------------------
-;; History
-;; must be called after routes have been defined
-(defn hook-browser-navigation! []
-  (doto (History.)
-    (events/listen
-     EventType/NAVIGATE
-     (fn [event]
-       (secretary/dispatch! (.-token event))))
-    (.setEnabled true)))
+   [:div [:select 
+          {:value @location 
+           :on-change #(reset! location (-> % .-target .-value))}
+          (for [item locmap]
+            ^{:key (key item)} [:option {:value (key item)} (val item)])]]
+   [:div [:input {:type "date"
+                  :value @date
+                  :on-change #(reset! date (-> % .-target .-value))}]]
+   [:div 
+    [:button {:type "button"
+              :on-click #(load-data @location @date)}
+     "Get Weather"]]   
+   [:div (let [curr @curr-weather
+                           {loc :location
+                            temp :temp
+                            conds :weather} curr]
+                       [:div 
+                        [:p "Location: " loc]
+                        [:p "Temperature: " temp]
+                        [:p "Conditions: " conds]])]])
 
 ;; -------------------------
 ;; Initialize app
 (defn mount-root []
-  (reagent/render [current-page] (.getElementById js/document "app")))
+  (reagent/render [home-page] (.getElementById js/document "app")))
 
 (defn init! []
-  (hook-browser-navigation!)
   (mount-root))

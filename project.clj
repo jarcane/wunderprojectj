@@ -21,7 +21,9 @@
                  [org.clojure/data.xml "0.0.8"]
                  [com.novemberain/monger "2.0.1"]
                  [ororo "0.1.0"]
-                 [cheshire "5.4.0"]]
+                 [cheshire "5.4.0"]
+                 [cljs-http "0.1.30"]
+                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]]
 
   :plugins [[lein-ring "0.9.1"]
             [lein-environ "1.0.0"]
@@ -72,6 +74,7 @@
 
                    :figwheel {:http-server-root "public"
                               :server-port 3449
+                              :repl false
                               :css-dirs ["resources/public/css"]
                               :ring-handler wunderprojectj.handler/app}
 
