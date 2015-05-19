@@ -35,20 +35,7 @@ The current weather in selected locations can be queried via HTTP GET on port 30
 
 All parameters are required or a "Not Found" result will be returned.
 
-The server will serve up the current temp and weather in these locations as an XML response, containing the location name, temp (in Celsius), and weather condition. 
-
-Example input:
-	localhost:3000/london/england/20100515
-
-Example output: 
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<response>
-	<location>London, England</location>
-	<temp>11</temp>
-	<weather>Cloudy</weather>
-</response>
-```
+The server will serve up the current temp and weather in these locations as a JSON response, containing the location name, temp (in Celsius), and weather condition. 
 
 ## License
 
