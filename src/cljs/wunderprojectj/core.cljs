@@ -48,13 +48,13 @@
               :on-click #(load-data @location @date)}
      "Get Weather"]]   
    [:div (let [curr @curr-weather
-                           {loc :location
-                            temp :temp
-                            conds :weather} curr]
-                       [:div 
-                        [:p "Location: " loc]
-                        [:p "Temperature: " temp]
-                        [:p "Conditions: " conds]])]])
+               {loc :location
+                temp :temp
+                conds :weather} curr]
+           [:div 
+            [:p "Location: " loc]
+            [:p "Temperature: " temp]
+            [:p "Conditions: " conds]])]])
 
 ;; -------------------------
 ;; Initialize app
