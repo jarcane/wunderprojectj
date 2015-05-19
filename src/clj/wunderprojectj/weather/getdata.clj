@@ -1,6 +1,7 @@
 (ns wunderprojectj.weather.getdata
   (:require [clojure.data.xml :as d-xml]
-            [ororo.core :as ororo]))
+            [ororo.core :as ororo]
+            [cheshire.core :refer :all]))
 
 ;; We slurp the API key from a file so that the key can be kept private
 (def api-key (slurp "./resources/private/wapikey.txt"))
@@ -28,21 +29,11 @@
      :temp temp 
      :weather conds}))
 
-(defn simple->xml
-  "Takes the simplified map of get-simple and returns an assembled XML response"
-  [smap]
-  (d-xml/sexp-as-element
-    [:response
-     [:location (:location smap)]
-     [:temp (:temp smap)]
-     [:weather (:weather smap)]]))
-
 (defn weather-query
-  "Given a location and date, returns XML response with location,
+  "Given a location and date, returns JSON response with location,
    current temp in C, and weather"
   [loc date]
   (->> 
     (ororo/history api-key loc date)
     (get-simple loc)
-    simple->xml
-    d-xml/emit-str))
+    generate-string))

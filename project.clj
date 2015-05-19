@@ -20,7 +20,8 @@
                  [secretary "1.2.3"]
                  [org.clojure/data.xml "0.0.8"]
                  [com.novemberain/monger "2.0.1"]
-                 [ororo "0.1.0"]]
+                 [ororo "0.1.0"]
+                 [cheshire "5.4.0"]]
 
   :plugins [[lein-ring "0.9.1"]
             [lein-environ "1.0.0"]
