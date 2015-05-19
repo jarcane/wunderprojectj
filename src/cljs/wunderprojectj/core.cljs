@@ -1,12 +1,11 @@
 (ns wunderprojectj.core
     (:require [reagent.core :as reagent :refer [atom]]
               [reagent.session :as session]
-              [goog.events :as events]
-              [goog.history.EventType :as EventType]
               [cljsjs.react :as react]
               [clojure.string :as string]
               [cljs-http.client :as http]
-              [cljs.core.async :refer [<!]])
+              [cljs.core.async :refer [<!]]
+              [wunderprojectj.ui.icons :as icons])
     (:require-macros [cljs.core.async.macros :refer [go]])
     (:import goog.History))
 
@@ -22,7 +21,7 @@
   "Create the URL needed to call the wunderproject back-end from the location
    and date atoms"
   [loc date]
-  (str "http://localhost:3449/" loc "/" (string/replace date #"-" "")))
+  (str "/" loc "/" (string/replace date #"-" "")))
 
 (defn load-data
   "Retrieve a JSON response from the back end"
@@ -54,7 +53,8 @@
            [:div 
             [:p "Location: " loc]
             [:p "Temperature: " temp]
-            [:p "Conditions: " conds]])]])
+            [:p "Conditions: " conds]
+            [:img {:src (icons/icon-url conds)}]])]])
 
 ;; -------------------------
 ;; Initialize app

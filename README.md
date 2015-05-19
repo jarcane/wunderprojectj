@@ -19,24 +19,33 @@ I also recommend creating a local directory for the database off the root direct
 
 ## Running
 
-To start, run mongod, pointed to the database directory, then start up the server with lein:
+To start, run mongod, pointed to the database directory, then start up the server in dev mode with lein:
 
 	mongod --dbpath ./data/db
 
-	lein do clean, figwheel
+	lein figwheel
 
 ## Usage
 
-Once the server is running, the front-end will be accessible from localhost at port 3000. In dev mode, a figwheel connection is available on port 3449, and a weasel REPL is available on port 9001.
+In dev-mode, once the server is running, the front-end will be accessible from localhost at port 3449, with a simple front-end available at the root offering access to data from three major cities.
 
-The current weather in selected locations can be queried via HTTP GET on port 3000, with the appropriate URL parameters. URLs are constructed like so:
+The current weather in selected locations can be queried via HTTP GET, with the appropriate URL parameters. URLs are constructed like so:
 
 	/[city]/[country or two-letter state code]/[date in YYYYMMDD]
 
 All parameters are required or a "Not Found" result will be returned.
 
-The server will serve up the current temp and weather in these locations as a JSON response, containing the location name, temp (in Celsius), and weather condition. 
+The server will serve up the temp and weather in these locations as a JSON response, containing the location name, temp (in Celsius), and weather condition. 
+
+Example:
+```json
+{ "location" : "London, England,
+  "temp" : "0",
+  "weather" : "Partly Cloudy" }
+```
 
 ## License
 
 Copyright © 2015 John Berry
+
+Built using [reagent-template](https://github.com/reagent-project/reagent-template)
