@@ -5,7 +5,7 @@
             [clojure.string :as string]))
 
 ;; We slurp the API key from a file so that the key can be kept private
-(def api-key (slurp "./resources/private/wapikey.txt"))
+(def api-key (string/trim (slurp "./resources/private/wapikey.txt")))
 
 ;; Functions
 (defn find-conds
